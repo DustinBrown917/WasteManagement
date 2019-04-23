@@ -14,13 +14,29 @@ public class Timer : MonoBehaviour
     private float timeRemaining;
     private int timeRemainingInt;
     private bool isRunning = false;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip tick;
+    [SerializeField] private AudioClip tock;
+    private bool tickTock;
+    [SerializeField] private AudioClip cuckoo;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         ResetTimer();
         GameManager.Instance.StartGame += GameManager_StartGame;
-        
+        GameManager.Instance.GameOver += GameManager_GameOver;
+    }
+
+    private void GameManager_GameOver(object sender, EventArgs e)
+    {
+        audioSource.clip = cuckoo;
+        audioSource.Play();
     }
 
     private void GameManager_StartGame(object sender, EventArgs e)
@@ -39,7 +55,13 @@ public class Timer : MonoBehaviour
                 StopTimer();
                 OnTimeOut();
             }
-            if (ShouldUpdateTimerLabel()) { UpdateTimerLabel(); }
+            if (ShouldUpdateTimerLabel()) {
+                tickTock = !tickTock;
+                if (tickTock) { audioSource.clip = tick; }
+                else { audioSource.clip = tock; }
+                audioSource.Play();
+                UpdateTimerLabel();
+            }
             UpdateTimerImage();
         }
     }

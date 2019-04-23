@@ -17,16 +17,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private GameStates gameState_;
+    public GameStates GameState { get { return gameState_; } }
+
     [SerializeField] private Timer timer;
     [SerializeField] private GameObject pushToStartPanel;
-
-    public int score;
-    public Text scoreText;
 
     private void Awake()
     {
         if(instance_ == null) {
             instance_ = this;
+            gameState_ = GameStates.MAIN_MENU;
         }
         else {
             Destroy(gameObject);
@@ -41,11 +42,6 @@ public class GameManager : MonoBehaviour {
     private void Timer_TimeOut(object sender, System.EventArgs e)
     {       
         OnGameOver();
-    }
-
-    public void UpdateScore()
-    {
-        scoreText.text = "" + score;
     }
 
     private void OnDestroy()
@@ -67,6 +63,8 @@ public class GameManager : MonoBehaviour {
     private void OnGameOver()
     {
         Debug.Log("GameOver!");
+        gameState_ = GameStates.MAIN_MENU;
+        PlayGamesHandler.AddScoreToLeaderBoard(GPGSIds.leaderboard_high_score, (long)ScoreCounter.Instance.Score);
         pushToStartPanel.SetActive(true);
         EventHandler handler = GameOver;
         if(handler != null) { handler(this, EventArgs.Empty); }
@@ -77,7 +75,14 @@ public class GameManager : MonoBehaviour {
     private void OnStartGame()
     {
         Debug.Log("GameStart!");
+        gameState_ = GameStates.PLAYING;
         EventHandler handler = StartGame;
         if(handler != null) { handler(this, EventArgs.Empty); }
     }
+}
+
+public enum GameStates
+{
+    PLAYING,
+    MAIN_MENU
 }

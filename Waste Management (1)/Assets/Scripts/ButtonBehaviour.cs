@@ -19,37 +19,37 @@ public class ButtonBehaviour : MonoBehaviour {
 
     public void OnPress()
     {
-        if(item.disposeValue == disposeValue)
-        {
-            // Add to score
-            gm.score += item.GetPointsToAdd();
+        //if(item.disposeValue == disposeValue)
+        //{
+        //    // Add to score
+        //    gm.score += item.GetPointsToAdd();
 
-            // Update Score
-            gm.UpdateScore();
+        //    // Update Score
+        //    gm.UpdateScore();
 
-            // Play positive sound
+        //    // Play positive sound
 
-            // Spawn positive Particle Effect
+        //    // Spawn positive Particle Effect
 
-            print("Correct");
-        }
-        else
-        {
-            // Subtract from score
-            gm.score -= 500;
+        //    print("Correct");
+        //}
+        //else
+        //{
+        //    // Subtract from score
+        //    gm.score -= 500;
 
-            // Update Score
-            gm.UpdateScore();
+        //    // Update Score
+        //    gm.UpdateScore();
 
-            // Reset Multiplier to 1
-            item.multiplier = 1;
+        //    // Reset Multiplier to 1
+        //    item.multiplier = 1;
 
-            // Play negative sound
+        //    // Play negative sound
 
-            // Spawn negative Particle Effect
-            print("Incorrect");
-        }
-        item.GetNewItem();
+        //    // Spawn negative Particle Effect
+        //    print("Incorrect");
+        //}
+        //item.GetNewItem();
     }
 
 

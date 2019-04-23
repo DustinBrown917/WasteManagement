@@ -136,6 +136,11 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  touchNoise: {fileID: 8300000, guid: 139e4e7c936a8db4ba0d088d3eb8750f, type: 3}
+  correctDisposalNoise: {fileID: 8300000, guid: 14eb50bd158d3224685371761e93a2af,
+    type: 3}
+  incorrectDisposalNoise: {fileID: 8300000, guid: 1092700b28ecf014bb10d42b8448e4fb,
+    type: 3}
 --- !u!50 &7766950245208956895
 Rigidbody2D:
   serializedVersion: 4

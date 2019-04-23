@@ -8,7 +8,11 @@ public class WasteSpawner : MonoBehaviour
     public static WasteSpawner Instance { get { return instance_; } }
 
     [SerializeField] private GameObject[] wasteItems;
+    private List<GameObject> pooledWasteItems;
     [SerializeField] private Vector3 spawnPosition;
+    [SerializeField] private int poolSize;
+    public Vector3 PoolPosition { get { return poolPosition_; } }
+    [SerializeField] private Vector3 poolPosition_;
 
     private List<WasteItem> registeredItems;
 
@@ -19,6 +23,8 @@ public class WasteSpawner : MonoBehaviour
         if(instance_ == null) {
             instance_ = this;
             registeredItems = new List<WasteItem>();
+            pooledWasteItems = new List<GameObject>();
+            
         }
         else {
             Destroy(this.gameObject);
@@ -29,9 +35,9 @@ public class WasteSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FillPool();
         GameManager.Instance.StartGame += GameManager_StartGame;
-        GameManager.Instance.GameOver += GameManager_GameOver;
-        
+        GameManager.Instance.GameOver += GameManager_GameOver;       
     }
 
     private void GameManager_StartGame(object sender, System.EventArgs e)
@@ -46,7 +52,7 @@ public class WasteSpawner : MonoBehaviour
         {
             WasteItem item = registeredItems[0];
             DeRegisterItem(item);
-            Destroy(item.gameObject);
+            AddItemToPool(item.gameObject);
         }
     }
 
@@ -54,6 +60,9 @@ public class WasteSpawner : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(spawnPosition, 0.5f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(poolPosition_, 0.5f);
     }
 
     private void OnDestroy()
@@ -63,7 +72,9 @@ public class WasteSpawner : MonoBehaviour
 
     public void SpawnItem()
     {
-        Instantiate(wasteItems[UnityEngine.Random.Range(0, wasteItems.Length)], spawnPosition, Quaternion.identity);
+        GameObject g = GetItemFromPool();        
+        g.transform.position = spawnPosition;
+        g.SetActive(true);
     }
 
     public void RegisterItem(WasteItem item)
@@ -76,7 +87,6 @@ public class WasteSpawner : MonoBehaviour
     {
         if (!registeredItems.Contains(item)) { return; }
         registeredItems.Remove(item);
-
         if(registeredItems.Count == 0 && shouldSpawnItem) { SpawnItem(); }
     }
 
@@ -89,5 +99,29 @@ public class WasteSpawner : MonoBehaviour
     public void StopSpawningItems()
     {
         shouldSpawnItem = false;
+    }
+
+    private void FillPool()
+    {
+        for(int i = 0; i < poolSize; i++) {
+            GameObject item = Instantiate(wasteItems[UnityEngine.Random.Range(0, wasteItems.Length)], poolPosition_, Quaternion.identity);
+            pooledWasteItems.Add(item);
+            item.SetActive(false);
+        }
+    }
+
+    private GameObject GetItemFromPool()
+    {
+        int index = UnityEngine.Random.Range(0, pooledWasteItems.Count);
+        GameObject g = pooledWasteItems[index];
+        pooledWasteItems.RemoveAt(index);
+        return g;
+    }
+
+    public void AddItemToPool(GameObject g)
+    {
+        pooledWasteItems.Add(g);
+        g.transform.position = poolPosition_;
+        g.SetActive(false);
     }
 }
