@@ -11,6 +11,9 @@ public class PointText : MonoBehaviour
     [SerializeField] private float driftHeight;
     [SerializeField] float smoothedTime = 0.5f;
     [SerializeField] float terminationDistance = 0.01f;
+    [SerializeField] Sprite[] stars;
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] GameObject star;
     private Vector3 smoothDampTarget;
     
 
@@ -31,5 +34,15 @@ public class PointText : MonoBehaviour
     public void SetPoints(float points)
     {
         label.text = ((int)points).ToString();
+        if(points == 100)
+        {
+            sr.sprite = stars[0];
+        }
+        else
+        {
+            star.transform.localScale = new Vector3(20, 20, 20);
+            label.fontSize = 72;
+            sr.sprite = stars[1];
+        }
     }
 }

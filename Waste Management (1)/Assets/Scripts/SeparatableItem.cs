@@ -18,6 +18,11 @@ public class SeparatableItem : MonoBehaviour
     private void OnEnable()
     {
         hasBeenSeparated = false;
+        foreach(GameObject go in subItems)
+        {
+            Animator anim = go.GetComponent<Animator>();
+            if (anim != null) { anim.enabled = false; }
+        }
     }
 
     private void Start()
@@ -28,6 +33,8 @@ public class SeparatableItem : MonoBehaviour
         foreach (GameObject go in subItems)
         {
             WasteItem wi = go.GetComponent<WasteItem>();
+
+            wi.parentItem = this;
             wi.isSubItem = true;
             localPositions[index] = wi.transform.localPosition;
             wi.DisposedCorrectly += WasteItem_DisposedCorrectly;
@@ -65,10 +72,13 @@ public class SeparatableItem : MonoBehaviour
     /// </summary>
     private void Separate()
     {
+        transform.eulerAngles = Vector3.zero;
         if(hasBeenSeparated) { return; }
         hasBeenSeparated = true;
         for(int i = 0; i < subItems.Length; i++)
         {
+            Animator anim = subItems[i].GetComponent<Animator>();
+            if(anim != null) { anim.enabled = true; }
             WasteItem wi = subItems[i].GetComponent<WasteItem>();
             if(wi != null)
             {
@@ -76,6 +86,7 @@ public class SeparatableItem : MonoBehaviour
                 wi.SetHomePosition(subItemTravelTargets[i]);
                 wi.ReturnToHome();
                 wi.CanBeGrabbed = true;
+                wi.ResetScoreValue();
 
                 if (wi.transform.parent == this.transform) {
                     wi.transform.parent = transform.parent;
@@ -97,8 +108,12 @@ public class SeparatableItem : MonoBehaviour
         currentlyAttachedItems++;
         subItem.transform.parent = this.transform;
         subItem.transform.localPosition = localPositions[index];
+        subItem.transform.eulerAngles = Vector3.zero;
+        subItem.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
         WasteItem wi = subItem.GetComponent<WasteItem>();
         wi.CanBeGrabbed = false;
+        wi.ResetScaleAndRotation();
+        wi.ResetScoreValue();
 
         if (currentlyAttachedItems == subItems.Length)
         {
@@ -106,5 +121,13 @@ public class SeparatableItem : MonoBehaviour
         }
     }
 
+    public void RestoreAllItemPoints()
+    {
+        Debug.Log("THis");
+        foreach(GameObject subItem in subItems)
+        {
+            subItem.GetComponent<WasteItem>().ResetScoreValue();
+        }
+    }
     
 }

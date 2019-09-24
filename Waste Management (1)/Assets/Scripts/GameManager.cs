@@ -20,8 +20,11 @@ public class GameManager : MonoBehaviour {
     private GameStates gameState_;
     public GameStates GameState { get { return gameState_; } }
 
+    public static bool isTouchBlocked;
+
     [SerializeField] private Timer timer;
     [SerializeField] private GameObject pushToStartPanel;
+    [SerializeField] private HighscoreManager highScoreManager;
 
     private void Awake()
     {
@@ -67,7 +70,10 @@ public class GameManager : MonoBehaviour {
         PlayGamesHandler.AddScoreToLeaderBoard(GPGSIds.leaderboard_high_score, (long)ScoreCounter.Instance.Score);
         pushToStartPanel.SetActive(true);
         EventHandler handler = GameOver;
-        if(handler != null) { handler(this, EventArgs.Empty); }
+        // Set the highScore if appropriate
+        highScoreManager.UpdateHighScore(ScoreCounter.Instance.Score);
+
+        if (handler != null) { handler(this, EventArgs.Empty); }
     }
 
     public event EventHandler StartGame;

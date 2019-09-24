@@ -15,7 +15,7 @@ TagManager:
   - 
   - WasteItem
   - WasteBin
-  - 
+  - Particle
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: WasteItems
     uniqueID: 3668632251
+    locked: 0
+  - name: Particles
+    uniqueID: 2210163305
     locked: 0

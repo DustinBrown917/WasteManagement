@@ -6,7 +6,8 @@ public class ShowLeaderboardScript : MonoBehaviour
 {
     public void ShowLeaderboard()
     {
-        PlayGamesHandler.ShowLeaderboard();
+        //PlayGamesHandler.ShowLeaderboard();
+        Social.ShowLeaderboardUI();
         Debug.Log("Showing Leaderboard");
     }
 }

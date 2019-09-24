@@ -35,13 +35,14 @@ public class WasteSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FillPool();
         GameManager.Instance.StartGame += GameManager_StartGame;
         GameManager.Instance.GameOver += GameManager_GameOver;       
     }
 
     private void GameManager_StartGame(object sender, System.EventArgs e)
     {
+        ClearPool();
+        FillPool();
         StartSpawningItems();
     }
 
@@ -85,6 +86,7 @@ public class WasteSpawner : MonoBehaviour
 
     public void DeRegisterItem(WasteItem item)
     {
+        
         if (!registeredItems.Contains(item)) { return; }
         registeredItems.Remove(item);
         if(registeredItems.Count == 0 && shouldSpawnItem) { SpawnItem(); }
@@ -110,6 +112,16 @@ public class WasteSpawner : MonoBehaviour
         }
     }
 
+    public void ClearPool()
+    {
+        foreach(GameObject go in pooledWasteItems)
+        {
+            Destroy(go);
+        }
+
+        pooledWasteItems.Clear();
+    }
+
     private GameObject GetItemFromPool()
     {
         int index = UnityEngine.Random.Range(0, pooledWasteItems.Count);
@@ -120,6 +132,11 @@ public class WasteSpawner : MonoBehaviour
 
     public void AddItemToPool(GameObject g)
     {
+        WasteItem wi = g.GetComponent<WasteItem>();
+        if(wi != null)
+        {
+            wi.ResetScaleAndRotation();
+        }
         pooledWasteItems.Add(g);
         g.transform.position = poolPosition_;
         g.SetActive(false);

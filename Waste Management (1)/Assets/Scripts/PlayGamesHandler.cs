@@ -6,6 +6,7 @@ public class PlayGamesHandler : MonoBehaviour
 {
     void Awake()
     {
+        
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();

@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    private static Timer instance_ = null;
+    public static Timer Instance { get { return instance_; } }
+
     [SerializeField] private Text timerLabel;
     [SerializeField] private Image timerImage;
     [SerializeField] private Gradient imageGradient;
@@ -22,7 +25,15 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        if(instance_ == null)
+        {
+            instance_ = this;
+            audioSource = GetComponent<AudioSource>();
+        } else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     // Start is called before the first frame update
@@ -31,6 +42,11 @@ public class Timer : MonoBehaviour
         ResetTimer();
         GameManager.Instance.StartGame += GameManager_StartGame;
         GameManager.Instance.GameOver += GameManager_GameOver;
+    }
+
+    private void OnDestroy()
+    {
+        if(instance_ == this) { instance_ = null; }
     }
 
     private void GameManager_GameOver(object sender, EventArgs e)
@@ -56,10 +72,13 @@ public class Timer : MonoBehaviour
                 OnTimeOut();
             }
             if (ShouldUpdateTimerLabel()) {
-                tickTock = !tickTock;
-                if (tickTock) { audioSource.clip = tick; }
-                else { audioSource.clip = tock; }
-                audioSource.Play();
+                if(timeRemaining <= 10)
+                {
+                    tickTock = !tickTock;
+                    if (tickTock) { audioSource.clip = tick; }
+                    else { audioSource.clip = tock; }
+                    audioSource.Play();                  
+                }
                 UpdateTimerLabel();
             }
             UpdateTimerImage();
@@ -100,6 +119,11 @@ public class Timer : MonoBehaviour
     public void StopTimer()
     {
         isRunning = false;
+    }
+
+    public void AddTime(float timeToAdd)
+    {
+        timeRemaining += timeToAdd;
     }
 
     public event EventHandler TimeOut;

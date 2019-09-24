@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 717384186761021790}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -626335045
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 89e27e7d1945e5740a1f99114c9d9a24, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 470dd7ff23773034ab16f8bf5d9177c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,14 +99,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.23, y: 1.23}
+    oldSize: {x: 3.3333333, y: 3.3333333}
     newSize: {x: 1.23, y: 1.23}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.23, y: 1.23}
+  m_Size: {x: 3.2, y: 3.2}
   m_EdgeRadius: 0
 --- !u!114 &717384186761021786
 MonoBehaviour:
@@ -120,11 +120,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2e00e147b0837469dc866205feab5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBinType_: 0
+  particles:
+  - {fileID: 558893052789406772, guid: 82254ebe1a4ce8d42b7c10303d627c08, type: 3}
+  - {fileID: 8753889221497230643, guid: 73faa43c33df75943a60edf7a64c2264, type: 3}
   overlapCollider: {fileID: 717384186761021785}
   filter:
     useTriggers: 1
-    useLayerMask: 0
+    useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 0
@@ -136,6 +138,11 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  parentItem: {fileID: 0}
+  stages:
+  - animationName: 
+    waitForCompletion: 0
+    properWasteBin: 0
   touchNoise: {fileID: 8300000, guid: 139e4e7c936a8db4ba0d088d3eb8750f, type: 3}
   correctDisposalNoise: {fileID: 8300000, guid: 14eb50bd158d3224685371761e93a2af,
     type: 3}
