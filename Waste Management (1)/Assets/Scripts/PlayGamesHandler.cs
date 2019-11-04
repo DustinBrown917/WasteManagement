@@ -29,6 +29,7 @@ public class PlayGamesHandler : MonoBehaviour
 
     public static void ShowLeaderboard()
     {
+        Debug.Log("Showing Leaderboard UI");
         Social.ShowLeaderboardUI();
     }
 

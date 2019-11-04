@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using UnityEngine;
 
 public class ShowLeaderboardScript : MonoBehaviour
