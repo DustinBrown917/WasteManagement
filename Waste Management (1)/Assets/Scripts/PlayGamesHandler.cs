@@ -2,6 +2,7 @@
 using GooglePlayGames.BasicApi;
 using UnityEngine;
 
+#if UNITY_ANDROID
 public class PlayGamesHandler : MonoBehaviour
 {
     void Awake()
@@ -20,7 +21,7 @@ public class PlayGamesHandler : MonoBehaviour
         Social.localUser.Authenticate(success => { Debug.Log("Successful sign in!"); });
     }
 
-    #region Leaderboards
+#region Leaderboards
 
     public static void AddScoreToLeaderBoard(string leaderboardID, long score)
     {
@@ -29,9 +30,9 @@ public class PlayGamesHandler : MonoBehaviour
 
     public static void ShowLeaderboard()
     {
-        Debug.Log("Showing Leaderboard UI");
         Social.ShowLeaderboardUI();
     }
 
-    #endregion
+#endregion
 }
+#endif

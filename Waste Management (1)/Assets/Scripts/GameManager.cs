@@ -67,7 +67,9 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("GameOver!");
         gameState_ = GameStates.MAIN_MENU;
+#if UNITY_ANDROID
         PlayGamesHandler.AddScoreToLeaderBoard(GPGSIds.leaderboard_high_score, (long)ScoreCounter.Instance.Score);
+#endif
         pushToStartPanel.SetActive(true);
         EventHandler handler = GameOver;
         // Set the highScore if appropriate

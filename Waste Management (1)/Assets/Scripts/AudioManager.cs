@@ -61,7 +61,6 @@ public class AudioManager : MonoBehaviour
 
         masterMixer.GetFloat(sfxVolKey, out tempVol);
         PlayerPrefs.SetFloat(sfxVolKey, tempVol);
-        Debug.Log("Data saved");
     }
 
     private void LoadSoundData()
